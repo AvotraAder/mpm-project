@@ -8,7 +8,7 @@ MPM (Metra Potential Method) is a project management scheduling technique simila
 
 ```bash
 ### Cloner le projet
-git clone https://github.com/AvotraAder/mpm-project.git
+git clone git@github.com:AvotraAder/mpm-project.git
 
 ### Accéder au dossier
 cd mpm-vue
