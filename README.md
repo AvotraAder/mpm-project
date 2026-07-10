@@ -11,7 +11,7 @@ MPM (Metra Potential Method) is a project management scheduling technique simila
 git clone git@github.com:AvotraAder/mpm-project.git
 
 ### Accéder au dossier
-cd mpm-vue
+cd mpm-project
 
 ### Installer les dépendances
 npm install
