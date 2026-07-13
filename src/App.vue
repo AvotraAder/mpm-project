@@ -39,7 +39,7 @@
           <tbody>
             <tr v-for="t in tasks" :key="t.id">
               <td class="task-name">{{ t.name }}</td>
-              <td class="mono">{{ t.duration }} j</td>
+              <td class="mono">{{ t.duration }}</td>
               <td class="mono">{{ t.preds.length ? t.preds.map(id => taskNameById(id)).join(', ') : '—' }}</td>
               <td style="text-align:right;"><button class="btn-ghost" @click="removeTask(t.id)">Supprimer</button></td>
             </tr>
@@ -66,7 +66,7 @@
       <div class="panel">
         <h2>Résultats & Marges</h2>
         <div v-if="mpmData" class="stats-row">
-          <div class="stat"><div class="val">{{ mpmData.projectDuration }} j</div><div class="lbl">Durée totale</div></div>
+          <div class="stat"><div class="val">{{ mpmData.projectDuration }}</div><div class="lbl">Durée totale</div></div>
           <div class="stat"><div class="val">{{ mpmData.results.filter(r => r.critical).length }}</div><div class="lbl">Tâches critiques</div></div>
         </div>
         <table v-if="mpmData">
