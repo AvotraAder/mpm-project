@@ -112,12 +112,36 @@ const mpmData = computed(() => {
 
 const focusDuration = () => durationInput.value.focus();
 
+// const addTask = () => {
+//   if (!newTask.name.trim()) return error.value = 'Veuillez donner un nom à la tâche.';
+//   if (newTask.duration === null || newTask.duration < 0) return error.value = 'La durée doit être un nombre positif.';
+  
+//   tasks.value.push({ id: nextId++, name: newTask.name.trim(), duration: newTask.duration, preds: [...newTask.preds] });
+//   newTask.name = ''; newTask.duration = null; newTask.preds = []; error.value = '';
+// };
 const addTask = () => {
-  if (!newTask.name.trim()) return error.value = 'Veuillez donner un nom à la tâche.';
+  const taskName = newTask.name.trim();
+
+  // 1. Vérifier que le nom n'est pas vide
+  if (!taskName) return error.value = 'Veuillez donner un nom à la tâche.';
+
+  // 2. Vérifier si une tâche avec ce nom existe déjà (en ignorant les majuscules/minuscules)
+  const taskExists = tasks.value.some(t => t.name.toLowerCase() === taskName.toLowerCase());
+  if (taskExists) {
+    return error.value = `La tâche "${taskName}" a déjà été saisie. Veuillez choisir un autre nom.`;
+  }
+
+  // 3. Vérifier la durée
   if (newTask.duration === null || newTask.duration < 0) return error.value = 'La durée doit être un nombre positif.';
   
-  tasks.value.push({ id: nextId++, name: newTask.name.trim(), duration: newTask.duration, preds: [...newTask.preds] });
-  newTask.name = ''; newTask.duration = null; newTask.preds = []; error.value = '';
+  // 4. Ajouter la tâche si tout est bon
+  tasks.value.push({ id: nextId++, name: taskName, duration: newTask.duration, preds: [...newTask.preds] });
+  
+  // Réinitialiser le formulaire
+  newTask.name = ''; 
+  newTask.duration = null; 
+  newTask.preds = []; 
+  error.value = '';
 };
 
 const removeTask = (id) => {
