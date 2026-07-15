@@ -83,11 +83,27 @@ export function computeMPM(tasks) {
     };
   });
 
+  // const criticalEdgeSet = new Set();
+  // nodeIds.forEach(from => {
+  //   outgoing[from].forEach(e => {
+  //     const tight = earliest[from] + e.weight === earliest[e.to] && latest[from] + e.weight === latest[e.to];
+  //     if (tight) criticalEdgeSet.add(from + '->' + e.to);
+  //   });
+  // });
+
   const criticalEdgeSet = new Set();
   nodeIds.forEach(from => {
     outgoing[from].forEach(e => {
-      const tight = earliest[from] + e.weight === earliest[e.to] && latest[from] + e.weight === latest[e.to];
-      if (tight) criticalEdgeSet.add(from + '->' + e.to);
+      // On vérifie que les deux nœuds sont eux-mêmes critiques
+      const isFromCritical = earliest[from] === latest[from];
+      const isToCritical = earliest[e.to] === latest[e.to];
+      
+      // On vérifie que la liaison est tendue (sans délai)
+      const tight = earliest[from] + e.weight === earliest[e.to];
+      
+      if (isFromCritical && isToCritical && tight) {
+        criticalEdgeSet.add(from + '->' + e.to);
+      }
     });
   });
 

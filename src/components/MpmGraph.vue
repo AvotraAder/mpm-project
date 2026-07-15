@@ -40,8 +40,11 @@
         <text :x="node.cx" :y="node.cy - 20" text-anchor="middle" font-family="var(--font-display)" font-weight="600" font-size="13" fill="var(--ink-main)" style="pointer-events:none;">
           {{ node.title }}
         </text>
-        <text v-if="!node.isExtremity" :x="node.cx" :y="node.cy - 5" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--ink-faint)" style="pointer-events:none;">
+        <!-- <text v-if="!node.isExtremity" :x="node.cx" :y="node.cy - 5" text-anchor="middle" font-family="var(--font-mono)" font-size="11" fill="var(--ink-faint)" style="pointer-events:none;">
           d = {{ node.duration }}
+        </text> -->
+        <text v-if="!node.isExtremity" :x="node.cx" :y="node.cy - 5" text-anchor="middle" font-family="var(--font-mono)" font-size="12" fill="#27ae60" font-weight="bold" style="pointer-events:none;">
+          Marge = {{ node.totalFloat }}
         </text>
         <text :x="node.cx - 22" :y="node.cy + 28" text-anchor="middle" font-family="var(--font-mono)" font-weight="600" font-size="14" fill="var(--primary)" style="pointer-events:none;">
           {{ node.earliest }}
@@ -100,6 +103,19 @@ const layout = computed(() => {
   const width = Math.max(PAD * 2 + (maxLevel + 1) * NODE_W + maxLevel * COL_GAP, maxX + NODE_W + PAD);
   const height = Math.max(PAD * 2 + Math.max(...Object.values(byLevel).map(a => a.length)) * NODE_H + ROW_GAP, maxY + NODE_H + PAD);
 
+  // const nodes = props.mpm.nodeIds.map(id => {
+  //   const isStart = id === props.mpm.START;
+  //   const isEnd = id === props.mpm.END;
+  //   const isExtremity = isStart || isEnd;
+  //   const res = props.mpm.results.find(r => r.id === id);
+  //   return {
+  //     id, cx: positions[id].x + NODE_R, cy: positions[id].y + NODE_R,
+  //     critical: !isExtremity && res.critical, isExtremity,
+  //     title: isStart ? 'DÉBUT' : (isEnd ? 'FIN' : (res.name.length > 12 ? res.name.slice(0,11)+'…' : res.name)),
+  //     duration: props.mpm.durationOf(id), earliest: props.mpm.earliest[id], latest: props.mpm.latest[id]
+  //   };
+  // });
+
   const nodes = props.mpm.nodeIds.map(id => {
     const isStart = id === props.mpm.START;
     const isEnd = id === props.mpm.END;
@@ -109,7 +125,11 @@ const layout = computed(() => {
       id, cx: positions[id].x + NODE_R, cy: positions[id].y + NODE_R,
       critical: !isExtremity && res.critical, isExtremity,
       title: isStart ? 'DÉBUT' : (isEnd ? 'FIN' : (res.name.length > 12 ? res.name.slice(0,11)+'…' : res.name)),
-      duration: props.mpm.durationOf(id), earliest: props.mpm.earliest[id], latest: props.mpm.latest[id]
+      duration: props.mpm.durationOf(id), 
+      earliest: props.mpm.earliest[id], 
+      latest: props.mpm.latest[id],
+      // AJOUT : On récupère la marge totale (marge de retard)
+      totalFloat: res ? res.totalFloat : 0 
     };
   });
 
