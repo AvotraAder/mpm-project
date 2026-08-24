@@ -47,3 +47,10 @@ Make sure you have **[Node.js](https://nodejs.org/)** (v16+) installed on your m
    cd mpm-project
    npm install
    npm run dev
+
+👤 Author & License
+AvotraAder
+
+GitHub: @AvotraAder
+
+Distributed under the MIT License. See LICENSE for details.
